@@ -6,7 +6,7 @@
 -- License   : BSD3
 -- Maintainer: Colin Woodbury <colin@fosskers.ca>
 
-module Streaming.Osm.Internal.Parser where
+module Osm.Internal.Parser where
 
 import           Control.Applicative (optional, (<|>))
 import           Control.Monad (void)
@@ -17,8 +17,8 @@ import qualified Data.ByteString as B
 import           Data.List (zipWith4, zipWith7)
 import qualified Data.Map.Strict as M
 import qualified Data.Vector as V
-import           Streaming.Osm.Internal.Util
-import           Streaming.Osm.Types
+import           Osm.Internal.Util
+import           Osm.Types
 
 ---
 

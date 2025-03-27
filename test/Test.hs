@@ -3,16 +3,15 @@
 module Main where
 
 import           Codec.Compression.Zlib (decompress)
-import           Control.Monad.Trans.Resource (runResourceT)
 import           Data.Attoparsec.ByteString as A
+import           Data.Monoid (Sum (Sum))
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.Vector as V
-import           Streaming.Osm
-import           Streaming.Osm.Internal.Parser
-import           Streaming.Osm.Internal.Util
-import           Streaming.Osm.Types
-import qualified Streaming.Prelude as S
+import           Osm
+import           Osm.Internal.Parser
+import           Osm.Internal.Util
+import           Osm.Types
 import           Test.Tasty
 import           Test.Tasty.HUnit
 
@@ -203,11 +202,17 @@ shrineT = fileT "test/shrine.osm.pbf" >>= blockT (5, 1, 0)
 
 fileS :: FilePath -> (Int, Int, Int) -> Assertion
 fileS fp expected = do
-  let bs = blocks $ blobs fp
-  nwrs <- runResourceT $ (,,)
-          <$> S.length_ (nodes bs)
-          <*> S.length_ (ways bs)
-          <*> S.length_ (relations bs)
+  bs <- BS.readFile fp
+  let Right blobs = parseOSM bs
+      (Sum a, Sum b, Sum c) = mconcat
+        [ ( Sum $ length $ _nodes block
+          , Sum $ length $ _ways block
+          , Sum $ length $ _relations block
+          )
+        | blob <- blobs
+        , Right block <- [ parseBlob blob ]
+        ]
+      nwrs = (a, b, c)
   nwrs @?= expected
 
 diomedeT :: Assertion

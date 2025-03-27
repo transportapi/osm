@@ -1,0 +1,59 @@
+cabal-version:      2.2
+name:               osm
+version:            1.0.2
+synopsis:
+  A hand-written byte parser for OpenStreetMap Protobuf data.
+
+description:
+  A hand-written byte parser for OpenStreetMap Protobuf data.
+
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Colin Woodbury
+maintainer:         colin@fosskers.ca
+copyright:          Copyright (c) 2017 - 2020 Azavea
+category:           OSM
+homepage:           https://github.com/fosskers/streaming-osm
+build-type:         Simple
+extra-source-files:
+  CHANGELOG.md
+  README.md
+  test/*.osm.pbf
+
+common commons
+  default-language: Haskell2010
+  ghc-options:
+    -Wall -Wpartial-fields -Wincomplete-record-updates
+    -Wincomplete-uni-patterns -Widentities
+
+  build-depends:
+    , attoparsec
+    , base
+    , bytestring
+    , vector
+    , zlib
+
+library
+  import:          commons
+  hs-source-dirs:  lib
+  exposed-modules:
+    Osm
+    Osm.Internal.Parser
+    Osm.Internal.Util
+    Osm.Types
+
+  build-depends:
+    , containers
+    , text
+    , transformers
+
+test-suite osm-test
+  import:         commons
+  type:           exitcode-stdio-1.0
+  hs-source-dirs: test
+  main-is:        Test.hs
+  ghc-options:    -threaded -with-rtsopts=-N
+  build-depends:
+    , osm
+    , tasty
+    , tasty-hunit

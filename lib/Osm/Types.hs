@@ -4,7 +4,7 @@
 -- License   : BSD3
 -- Maintainer: Colin Woodbury <colin@fosskers.ca>
 
-module Streaming.Osm.Types
+module Osm.Types
   ( -- * OpenStreetMap /Elements/
     Node(..)
   , Way(..)

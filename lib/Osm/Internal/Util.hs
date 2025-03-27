@@ -6,7 +6,7 @@
 -- License   : BSD3
 -- Maintainer: Colin Woodbury <colin@fosskers.ca>
 
-module Streaming.Osm.Internal.Util
+module Osm.Internal.Util
   ( foldBytes
   , breakOn0
   , pairs
