@@ -1,19 +1,6 @@
-# `streaming-osm`
+# `osm`
 
 This library provides the ability to read and process
-[OpenStreetMap](http://www.openstreetmap.org/) data via the
-[streaming](https://hackage.haskell.org/package/streaming) ecosystem. Since
-*streaming* allows for very little RAM overhead despite file size, we can
-process very large OSM PBF files just by providing a file path:
+[OpenStreetMap](http://www.openstreetmap.org/) data.
 
-```haskell
-import           Streaming
-import           Streaming.Osm
-import qualified Streaming.Prelude as S
-
--- | Count all nodes.
-count :: IO ()
-count = do
-  len <- runResourceT . S.length_ . nodes . blocks $ blobs "yourfile.osm.pbf"
-  print len
-```
+Adopted from https://github.com/fosskers/streaming-osm.
